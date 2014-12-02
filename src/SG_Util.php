@@ -30,7 +30,7 @@ class SG_Util{
 		return htmlspecialchars($value);
 	}
 
-	static function setnull($var, $field_name=''){
+	static function setNull($var, $field_name=''){
 		if(is_array($var)){
 			unset($var[$field_name]);
 		}

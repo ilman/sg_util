@@ -1,6 +1,6 @@
 <?php
 
-namespace Scienceguard\SG_Util;
+namespace Scienceguard;
 
 class SG_Util{
 

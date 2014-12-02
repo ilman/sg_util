@@ -16,7 +16,7 @@
     },
     "autoload": {
         "psr-4": {
-            "Scienceguard\\SG_Util\\": "src"
+            "Scienceguard\\": "src"
         }
     }
 }

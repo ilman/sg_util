@@ -1,6 +1,6 @@
 <?php
 
-use Scienceguard\SG_Util\SG_Util;
+use Scienceguard\SG_Util;
 
 class SG_UtilTest extends PHPUnit_Framework_TestCase {
 

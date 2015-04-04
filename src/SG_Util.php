@@ -18,10 +18,10 @@ class SG_Util{
 			else{ return $default; }
 		}
 		else{
-			$value = $var;
+			$value = $default;
 		}
 		
-		return ($value!==null) ? $value : $default;
+		return $value;
 	}
 
 	static function esc($var, $field_name=null, $default=null){
@@ -49,14 +49,21 @@ class SG_Util{
 		return $str;
 	}
 
-	static function inlineAttr($attr=array()){
+	static function inlineAttr($attr=array(), $limit_attr=true){
 		$inline_attr = '';
 		$allowed_attr = array('class','type','value','name','placeholder','readonly','disabled','rel','id','style','selected','checked','rows','tabindex');
+		
 
 		if(!is_array($attr) && !is_object($attr)){ return false; }
 					
 		foreach($attr as $key => $val){
-			if(in_array($key, $allowed_attr) || strpos($key,'data-')===0){
+			if(!$limit_attr){
+				$is_allowed = true;
+			}
+			else{
+				$is_allowed = in_array($key, $allowed_attr);
+			}
+			if($is_allowed || strpos($key,'data-')===0){
 				$inline_attr .= $key.'="'.htmlspecialchars($val).'" ';
 			}
 		}

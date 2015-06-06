@@ -18,10 +18,10 @@ class SG_Util{
 			else{ return $default; }
 		}
 		else{
-			$value = $default;
+			$value = $var;
 		}
 		
-		return $value;
+		return ($value!==null) ? $value : $default;
 	}
 
 	static function esc($var, $field_name=null, $default=null){
@@ -49,21 +49,14 @@ class SG_Util{
 		return $str;
 	}
 
-	static function inlineAttr($attr=array(), $limit_attr=true){
+	static function inlineAttr($attr=array()){
 		$inline_attr = '';
 		$allowed_attr = array('class','type','value','name','placeholder','readonly','disabled','rel','id','style','selected','checked','rows','tabindex');
-		
 
 		if(!is_array($attr) && !is_object($attr)){ return false; }
 					
 		foreach($attr as $key => $val){
-			if(!$limit_attr){
-				$is_allowed = true;
-			}
-			else{
-				$is_allowed = in_array($key, $allowed_attr);
-			}
-			if($is_allowed || strpos($key,'data-')===0){
+			if(in_array($key, $allowed_attr) || strpos($key,'data-')===0){
 				$inline_attr .= $key.'="'.htmlspecialchars($val).'" ';
 			}
 		}
@@ -116,7 +109,7 @@ class SG_Util{
 	}
 
 
-	static function arrayMapOption($array,$label_key='label',$value_key='value', $selected=null){			
+	static function arrayMapOption($array, $label_key='label', $value_key='value', $selected=null, $extra_fields=array()){			
 		if(!is_array($array) && !is_object($array)){
 			return false;
 		}
@@ -127,23 +120,31 @@ class SG_Util{
 		foreach($array as $row){
 			$temp_label = '';
 
+			// if want to concat label
 			if(is_array($label_key)){
 				foreach($label_key as $label){
-					$temp_label .= SG_Util::val($row,$label).' ';
+					$temp_label .= SG_Util::val($row, $label).' ';
 				}
 			}
 			else{
-				$temp_label = SG_Util::val($row,$label_key);
+				$temp_label = SG_Util::val($row, $label_key);
 			}
 
 			$new_array[$i] = array(
 				'label' => $temp_label,
-				'value' => SG_Util::val($row,$value_key)
+				'value' => SG_Util::val($row, $value_key)
 			);
+
+			// if want to add extra field to the result
+			if($extra_fields){
+				foreach($extra_fields as $ef){
+					$new_array[$i][$ef] = SG_Util::val($row, $ef);
+				}
+			}
 
 			if($selected){
 				foreach($selected as $key=>$val){
-					if(SG_Util::val($row,$key)===$val){
+					if(SG_Util::val($row, $key)===$val){
 						$new_array[$i]['selected'] = true;
 					}
 				}

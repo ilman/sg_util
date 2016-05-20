@@ -93,12 +93,12 @@ class SG_Util{
 		$array_linear = array();
 		
 		foreach($params as $param){
-			$param_child = sg_util::val($param, $child_key);				
+			$param_child = self::val($param, $child_key);				
 
 			if($param_child){
 				$param[$child_key] = array();
 				$array_linear[] = $param;
-				$array_linear = array_merge($array_linear,self::array_linear($param_child, $child_key));
+				$array_linear = array_merge($array_linear,self::arrayLinear($param_child, $child_key));
 			}
 			else{
 				$array_linear[] = $param;
